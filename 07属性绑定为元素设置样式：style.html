@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .red {
+            color: brown;
+            
+        }
+        .thin {
+            font-weight: 200;
+        }
+    </style>
+    <script src="./js/vue-2.4.0.js"></script>
+</head>
+<body>
+    
+    <div id="add">
+        <h1 :style="[aaa, bbb]">这是一个善良的h1</h1>
+    </div>
+
+
+    <script>
+        var vm = new Vue({
+            el: '#add',
+            data: {
+                aaa: {color:'blue', 'font-weight': 200},
+                bbb: {'font-style': 'italic'}
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue-2.4.0.js"></script>
+</head>
+<body>
+    
+    <div id="add">
+        <input type="button" value="浪起来" @click=show>
+        <input type="button" value="低调" @click=stop>
+        <p>{{ msg }}</p>
+    </div>
+
+    <script>
+        // 注意： VM实例中  如果想要获取data上的数据 或者想要调用 methods中的方法 必须通过this.数据属性名 或 this.方法名 来进行访问  这里的this  就表示 我们new出来的VM实例对象
+        var vm = new Vue({
+            el: '#add',
+            data: {
+                msg: '猥琐发育，别浪~~ !',
+                intervalId: null
+            },
+            methods: {
+                show() {
+                    // 判断intervalId的值为null开启定时器  不为null直接return
+                    if(this.intervalId != null) return;
+
+                    this.intervalId = setInterval(() => {
+                        // 获取第一个字符
+                        var start = this.msg.substring(0,1);
+                        // 获取后面所有的字符
+                        var end = this.msg.substring(1);
+                        // 重新拼接得到新的字符串  并赋值给 this.msg
+                        this.msg = end + start;
+                    }, 300)
+
+                    // 注意： VM实例  会监听自己身上 data中所有数据的改变  只要数据一发生变化就会自动把最新的数据  从data上同步到页面中去，【好处：程序员只需要关心数据  不再考虑如何重新渲染DOM页面】
+                },
+                stop() {
+                    // 关闭定时器
+                    clearInterval(this.intervalId);
+                    // 从新给intervalId 赋值
+                    this.intervalId = null;
+                }
+            }
+        });
+
+    // 思路
+    // 1 给两个按钮 通过 v-on 或者简写 @属性注册事件
+    // 2 在按钮事件处理函数中写相关逻辑代码  拿到msg字符串  然后调用字符串的截取（substring）来进行截取 从新摆放 通过定时器让他自行操作
+    // 3 关闭定时器  从新赋值 
+    </script>
+</body>
+</html>

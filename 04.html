@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #outline {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
+        #content {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+    </style>
+    <script src="./js/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="add">
+
+        <div id="outline" @click.capture=div2>
+            <div id="content" @click=div1>
+                <input type="button" value="btn" @click=btn>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#add',
+            data: {},
+            methods: {
+                btn() {
+                    alert('btn')
+                },
+                div1() {
+                    alert('div1')
+                },
+                div2() {
+                    alert('div2')
+                }
+            }
+        });
+    </script>
+</body>
+</html>

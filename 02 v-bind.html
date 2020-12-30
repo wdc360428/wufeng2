@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" :value="msg2" :title="msg+msg1" v-on:mouseover=show>
+    </div>
+    
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '我是个大大的按钮',
+                msg1: '啦啦啦',
+                msg2: '答案呢'
+            },
+            methods: {
+                show: function() {
+                    alert('我好开心')
+                }
+            }
+        });
+    </script>
+</body>
+</html>

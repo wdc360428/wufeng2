@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="add">
+        <p>{{ msg }}</p>
+
+        <input type="text" style="width: 100%" v-model = msg>
+
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#add',
+            data: {
+                msg: '1232321232'
+            }
+        });
+    </script>
+</body>
+</html>

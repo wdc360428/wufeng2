@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="add">
+        <input type="text" v-model = n1>
+
+        <select v-model = tap>
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+
+        <input type="text" v-model = n2>
+
+        <input type="button" value="=" @click=www>
+
+        <input type="text" v-model = resolt>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#add',
+            data: {
+                n1: 0,
+                n2: 0,
+                resolt: 0,
+                tap: '+'
+            },
+            methods: {
+                www() {
+                    // switch(this.tap) {
+                        // case '+': 
+                        //    this.resolt =  parseInt(this.n1) + parseInt(this.n2);
+                        // break;
+                        // case '-': 
+                        //     this.resolt =  parseInt(this.n1) - parseInt(this.n2);
+                        // break;
+                        // case '*': 
+                        //     this.resolt =  parseInt(this.n1) * parseInt(this.n2);
+                        // break;
+                        // case '/': 
+                        //     this.resolt =  parseInt(this.n1) / parseInt(this.n2);
+                        // break;
+                        
+                    // }
+
+                    // 正式开发中少用这个
+                    var eee = 'this.resolt =  parseInt(this.n1) '+this.tap+' parseInt(this.n2)';
+                    eval(eee);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
