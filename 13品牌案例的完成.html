@@ -16,11 +16,11 @@
                 <input type="text" v-model = "id">
             </label>
             <label for="">CarName:
-                <input type="text" v-model = "name">
+                <input type="text" v-model = "name" @keyup.f2 = add>
             </label>
             <input type="button" value="提交" @click = add>
             <label for="">搜索名字关键字:
-                <input type="text" v-model = "keywords">
+                <input type="text" v-model = "keywords" v-focus>
             </label>
         </div>
 
@@ -38,14 +38,132 @@
                 <tr v-for = "item in search(keywords)" :key = "item.id">
                     <td> {{ item.id }} </td>
                     <td> {{ item.name }} </td>
-                    <td> {{ item.time }} </td>
+                    <td> {{ item.time | timeFun }} </td>
                     <td> <a href="" @click.prevent = remove(item.id)>删除</a> </td>
                 </tr>
             </tbody>
         </table>
     </div>
+
+    <div id="app2" v-color = "'blue'">
+        <h3 v-fontweight = "900" v-fontsize = "'50px'">{{ time | timeFun }}</h3>
+    </div>
     
     <script>
+
+         // 过滤器的使用
+         Vue.filter('timeFun', function(time, pear = 'yyyy-mm-dd') {
+            var dt = new Date(time);
+            var y = dt.getFullYear();
+            // 因为月份从零开始所以加1
+            var m = (dt.getMonth() + 1).toString().padStart(2, '0');
+            var date = dt.getDate().toString().padStart(2, '0');
+            // var h = dt.getHours();
+            // var min = dt.getMinutes();
+            // var s = dt.getSeconds();
+            // s = s>10 ? s : '0' + s;
+            
+            // return  `${y}-${m}-${date}  ${h}:${min}:${s} `;
+            if(pear.toLowerCase() == '') {
+                return  `${y}-${m}-${date}`;
+            } else {
+                var h = dt.getHours().toString().padStart(2, '0');
+                var min = dt.getMinutes().toString().padStart(2, '0');
+                var s = dt.getSeconds().toString().padStart(2, '0');
+                // s = s>10 ? s : '0' + s;
+                // min = min>10 ? min : '0' + min;
+
+                return  `${y}-${m}-${date}  ${h}:${min}:${s}`
+            }
+
+        });
+
+        // 自定义color指令
+        // Vue.directive('color', {
+        //     bind: function (el, ww) {
+        //         // 样式 只要通过指令绑定给了元素  不管这个元素有没有被插入到页面中去 这个元素肯定有了一个内联的样式
+        //         // 将来元素肯定会显示到页面中， 这时候 浏览器的渲染引擎必然会解析样式 应用给这个元素
+        //         el.style.color = ww.value ;
+        //         console.log(ww.value);
+        //         console.log(ww.expression);
+        //         // 和样式相关的操作 一般都可以在bind执行
+        //     }
+        // });
+
+        // 自定义字体粗细
+        // Vue.directive('fontweight', {
+        //     bind: function (el, ff) {
+        //         el.style.fontWeight = ff.value;
+        //     }
+        // })
+
+
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {
+                time: new Date()
+
+            },
+            directives: {
+                'fontweight': {
+                    bind: function (el, ff) {
+                       el.style.fontWeight = ff.value;
+                       console.log(ff);
+                    }
+                },
+                'color': {
+                    bind: function (el, ww) {
+                        el.style.color = ww.value
+                    }
+                },
+                'fontsize': function (el, ss) { // 注意：这个 function 等同于 把代码 写到了bind 和update 中去
+                    el.style.fontSize = parseInt(ss.value)+ 'px';
+                }
+            }
+            // filters: {
+            //     timeFun: function (time, pear='') {
+            //         var dt = new Date(time);
+            //         var y = dt.getFullYear();
+            //         // 因为月份从零开始所以加1
+            //         var m = (dt.getMonth() + 1).toString().padStart(2, '0');
+            //         var date = dt.getDate().toString().padStart(2, '0');
+            //         // var h = dt.getHours();
+            //         // var min = dt.getMinutes();
+            //         // var s = dt.getSeconds();
+            //         // s = s>10 ? s : '0' + s;
+                    
+            //         // return  `${y}-${m}-${date}  ${h}:${min}:${s} `;
+            //         if(pear.toLowerCase() == 'y') {
+            //             return  `${y}-${m}-${date}`;
+            //         } else {
+            //             var h = dt.getHours().toString().padStart(2, '0');
+            //             var min = dt.getMinutes().toString().padStart(2, '0');
+            //             var s = dt.getSeconds().toString().padStart(2, '0');
+            //             // s = s>10 ? s : '0' + s;
+            //             // min = min>10 ? min : '0' + min;
+
+            //             return  `${y}-${m}-${date}  ${h}:${min}:${s}~~~~ `
+            //         }
+            //     }
+            // }
+            
+
+        });
+
+
+
+        // 自定义键盘码
+        Vue.config.keyCodes.f2 = 113;
+
+        // 自定义全局指令-让文本框获取焦点
+        Vue.directive('focus',{
+            inserted: function(el) {
+                el.focus();
+            }
+        });
+
+       
+
         var vm = new Vue({
             el: '#app',
             data: {
@@ -83,16 +201,29 @@
                     })
                     this.list.splice(index, 1)
                 },
-                search(keywords) {
-                    var newList = [];
-                    this.list.forEach(item => {
-                        if(item.name.indexOf(keywords) != -1) {
-                            newList.push(item);
+                search(keywords) { // 根据关键字  进行数据搜索
+                    // var newList = [];
+                    // this.list.forEach(item => {
+                    //     if(item.name.indexOf(keywords) != -1) {
+                    //         newList.push(item);
+                    //     }
+                    // });
+                    // return newList;
+
+                    // 注意  forEach  some  filter findIndex  这些都属于数组的新方法
+                    // 都会对数组中的没一项进行遍历  执行相关的操作
+                    return this.list.filter(item => {
+
+                        // 注意  ES6中 为字符串提供了一个新方法  叫做string.prototyoe.includes（'要包含的字符串'）
+                        // 如果包含  则返回true  否则返回false
+                        // JQ中有 contains
+                        if(item.name.includes(keywords)) {
+                            return item;
                         }
                     });
-                    return newList;
+
                 }
-            }
+            },
         });
 
         // 分析：

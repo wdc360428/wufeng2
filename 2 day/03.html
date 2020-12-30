@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue-2.4.0.js"></script>
+</head>
+<body>
+    
+    <div id="app">
+        <p id="rr"> {{msg}} </p> 
+        <input type="button" value="改变数据" @click="ww">
+        
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '没改变'
+            },
+            methods: {
+                ww() {
+                    this.msg = '改变了';
+                }
+            },
+            beforeUpdate() {
+                console.log('周期函数中的数据'+ document.getElementById('rr').innerText)
+            }
+
+        });
+    </script>
+
+</body>
+</html>
